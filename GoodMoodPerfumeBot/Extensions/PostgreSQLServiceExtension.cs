@@ -1,4 +1,5 @@
-﻿using GoodMoodPerfumeBot.Repositiory;
+﻿using GoodMoodPerfumeBot.Models;
+using GoodMoodPerfumeBot.Repositiory;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,10 +15,10 @@ namespace GoodMoodPerfumeBot.Extensions
             });
         }
 
-        public static void AddPostgreSQLIdentityContext(this IServiceCollection services)
-        {
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppDatabaseContext>();
-        }
+        //public static void AddPostgreSQLIdentityContext(this IServiceCollection services)
+        //{
+        //    services.AddIdentity<AppUser, IdentityRole>()
+        //        .AddEntityFrameworkStores<AppDatabaseContext>();
+        //}
     }
 }

@@ -1,9 +1,14 @@
-﻿namespace GoodMoodPerfumeBot.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GoodMoodPerfumeBot.Models
 {
     public class Order
     {
-        int OrderId { get; set; }
-        int UserId { get; set; }
-        int ProductId { get; set; }
+        [Key]
+        public int OrderId { get; set; }
+        [Required]
+        public long UserId { get; set; }
+
+        public List<OrderItem>? OrderItems { get; set; }
     }
 }

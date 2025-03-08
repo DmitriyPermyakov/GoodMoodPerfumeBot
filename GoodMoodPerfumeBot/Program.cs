@@ -13,7 +13,8 @@ namespace GoodMoodPerfumeBot
 
             builder.Services.AddControllers();
             builder.Services.AddPostgreSQLContext(builder.Configuration);
-            builder.Services.AddPostgreSQLIdentityContext();
+
+            //builder.Services.AddPostgreSQLIdentityContext(); 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
