@@ -1,17 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GoodMoodPerfumeBot.Models
+namespace GoodMoodPerfumeBot.DTOs
 {
-    public class Product
-    {
-        [Key]
-        public int ProductId { get; set; }
+    public class CreateProductDTO
+    {        
         [Required]
         public string? ProductName { get; set; }
         [Required]
         public string? ProductDescription { get; set; }
         [Required]
-        public string[]? ProductImageIds{ get; set; }
+        public IFormFile? Images { get; set; }
+        
         [Range(1, 100000)]
         [Required]
         public double ProductPrice { get; set; }
