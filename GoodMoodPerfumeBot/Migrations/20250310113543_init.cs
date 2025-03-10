@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoodMoodPerfumeBot.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -75,7 +75,7 @@ namespace GoodMoodPerfumeBot.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductName = table.Column<string>(type: "text", nullable: false),
                     ProductDescription = table.Column<string>(type: "text", nullable: false),
-                    ProductImageIds = table.Column<string>(type: "text", nullable: false),
+                    ProductImageIds = table.Column<string[]>(type: "text[]", nullable: false),
                     ProductPrice = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
@@ -194,16 +194,16 @@ namespace GoodMoodPerfumeBot.Migrations
                 columns: new[] { "ProductId", "ProductDescription", "ProductImageIds", "ProductName", "ProductPrice" },
                 values: new object[,]
                 {
-                    { 1, "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Маленький Пластиковый Портмоне", 5295.9200000000001 },
-                    { 2, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Потрясающий Пластиковый Автомобиль", 2548.5799999999999 },
-                    { 3, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Интеллектуальный Меховой Берет", 1401.03 },
-                    { 4, "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Фантастический Хлопковый Ножницы", 9209.75 },
-                    { 5, "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Потрясающий Гранитный Свитер", 4545.1599999999999 },
-                    { 6, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Потрясающий Хлопковый Ботинок", 1884.5699999999999 },
-                    { 7, "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Большой Гранитный Компьютер", 6382.3199999999997 },
-                    { 8, "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Эргономичный Хлопковый Плащ", 8928.8500000000004 },
-                    { 9, "The Football Is Good For Training And Recreational Purposes", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Фантастический Хлопковый Куртка", 4117.04 },
-                    { 10, "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Свободный Меховой Ножницы", 3863.6199999999999 }
+                    { 1, "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Лоснящийся Неодимовый Свитер", 1801.8199999999999 },
+                    { 2, "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Потрясающий Неодимовый Стол", 4075.1399999999999 },
+                    { 3, "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Свободный Резиновый Ножницы", 4553.2600000000002 },
+                    { 4, "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Большой Гранитный Кепка", 3490.2399999999998 },
+                    { 5, "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Интеллектуальный Пластиковый Берет", 5894.54 },
+                    { 6, "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Интеллектуальный Кожанный Клатч", 2668.8899999999999 },
+                    { 7, "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Гранитный Шарф", 9624.2099999999991 },
+                    { 8, "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Лоснящийся Кожанный Ножницы", 5456.1300000000001 },
+                    { 9, "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Маленький Натуральный Клатч", 3615.3099999999999 },
+                    { 10, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Пластиковый Ремень", 2648.7600000000002 }
                 });
 
             migrationBuilder.CreateIndex(

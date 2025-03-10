@@ -35,9 +35,9 @@ namespace GoodMoodPerfumeBot.Services
             return await this.repository.GetProductByIdAsync(id);
         }
 
-        public void RemoveProduct(int id)
+        public async Task RemoveProductAsync(int id)
         {
-            throw new NotImplementedException();
+            await this.repository.RemoveProductAsync(id);
         }
 
         public Product UpdateProduct(Product updatedProduct)

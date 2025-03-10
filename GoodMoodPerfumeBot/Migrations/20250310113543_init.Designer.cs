@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoodMoodPerfumeBot.Migrations
 {
     [DbContext(typeof(AppDatabaseContext))]
-    [Migration("20250308200237_Init")]
-    partial class Init
+    [Migration("20250310113543_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,9 +56,9 @@ namespace GoodMoodPerfumeBot.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ProductImageIds")
+                    b.Property<string[]>("ProductImageIds")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text[]");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -75,82 +75,82 @@ namespace GoodMoodPerfumeBot.Migrations
                         new
                         {
                             ProductId = 1,
-                            ProductDescription = "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Маленький Пластиковый Портмоне",
-                            ProductPrice = 5295.9200000000001
+                            ProductDescription = "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Лоснящийся Неодимовый Свитер",
+                            ProductPrice = 1801.8199999999999
                         },
                         new
                         {
                             ProductId = 2,
-                            ProductDescription = "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Потрясающий Пластиковый Автомобиль",
-                            ProductPrice = 2548.5799999999999
+                            ProductDescription = "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Потрясающий Неодимовый Стол",
+                            ProductPrice = 4075.1399999999999
                         },
                         new
                         {
                             ProductId = 3,
-                            ProductDescription = "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Интеллектуальный Меховой Берет",
-                            ProductPrice = 1401.03
+                            ProductDescription = "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Свободный Резиновый Ножницы",
+                            ProductPrice = 4553.2600000000002
                         },
                         new
                         {
                             ProductId = 4,
-                            ProductDescription = "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Фантастический Хлопковый Ножницы",
-                            ProductPrice = 9209.75
+                            ProductDescription = "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Большой Гранитный Кепка",
+                            ProductPrice = 3490.2399999999998
                         },
                         new
                         {
                             ProductId = 5,
-                            ProductDescription = "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Потрясающий Гранитный Свитер",
-                            ProductPrice = 4545.1599999999999
+                            ProductDescription = "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Интеллектуальный Пластиковый Берет",
+                            ProductPrice = 5894.54
                         },
                         new
                         {
                             ProductId = 6,
-                            ProductDescription = "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Потрясающий Хлопковый Ботинок",
-                            ProductPrice = 1884.5699999999999
+                            ProductDescription = "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Интеллектуальный Кожанный Клатч",
+                            ProductPrice = 2668.8899999999999
                         },
                         new
                         {
                             ProductId = 7,
-                            ProductDescription = "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Большой Гранитный Компьютер",
-                            ProductPrice = 6382.3199999999997
+                            ProductDescription = "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Великолепный Гранитный Шарф",
+                            ProductPrice = 9624.2099999999991
                         },
                         new
                         {
                             ProductId = 8,
-                            ProductDescription = "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Эргономичный Хлопковый Плащ",
-                            ProductPrice = 8928.8500000000004
+                            ProductDescription = "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Лоснящийся Кожанный Ножницы",
+                            ProductPrice = 5456.1300000000001
                         },
                         new
                         {
                             ProductId = 9,
-                            ProductDescription = "The Football Is Good For Training And Recreational Purposes",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Фантастический Хлопковый Куртка",
-                            ProductPrice = 4117.04
+                            ProductDescription = "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Маленький Натуральный Клатч",
+                            ProductPrice = 3615.3099999999999
                         },
                         new
                         {
                             ProductId = 10,
-                            ProductDescription = "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
-                            ProductImageIds = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Свободный Меховой Ножницы",
-                            ProductPrice = 3863.6199999999999
+                            ProductDescription = "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
+                            ProductImageIds = new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" },
+                            ProductName = "Великолепный Пластиковый Ремень",
+                            ProductPrice = 2648.7600000000002
                         });
                 });
 

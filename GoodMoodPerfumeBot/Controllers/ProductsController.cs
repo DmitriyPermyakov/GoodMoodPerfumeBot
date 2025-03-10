@@ -71,7 +71,7 @@ namespace GoodMoodPerfumeBot.Controllers
         }
 
         [HttpPost("createProduct")]
-        public async Task<IActionResult> CreateProduct([FromForm]CreateProductDTO productDTO)
+        public async Task<IActionResult> Create([FromForm]CreateProductDTO productDTO)
         {
             
             try
@@ -105,7 +105,7 @@ namespace GoodMoodPerfumeBot.Controllers
                 return CreatedAtRoute(nameof(GetById), new { id = createdProduct.ProductId }, response);
 
             }
-            catch(Exception ex)
+            catch
             {
                 return BadRequest(new Response()
                 {
@@ -114,6 +114,44 @@ namespace GoodMoodPerfumeBot.Controllers
                     Errors = new List<string>()
                     {
                         "cant create product"
+                    }
+                });
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                if(id < 0)
+                {
+                    return BadRequest(new Response()
+                    {
+                        Status = HttpStatusCode.BadRequest,
+                        IsSuccessful = false,
+                        Errors = new List<string>()
+                        {
+                            "wrong id"
+                        }
+                    });
+                }
+
+                await this.productService.RemoveProductAsync(id);
+                return Ok(new Response()
+                {
+                    Status = HttpStatusCode.NoContent
+                });
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Status = HttpStatusCode.BadRequest,
+                    IsSuccessful = false,
+                    Errors = new List<string>()
+                    {
+                        ex.Message
                     }
                 });
             }
