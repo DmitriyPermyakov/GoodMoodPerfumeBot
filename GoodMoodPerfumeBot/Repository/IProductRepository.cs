@@ -6,7 +6,7 @@ namespace GoodMoodPerfumeBot.Repository
     {
         public Task<List<Product>> GetAllProductsAsync();
         public Task<Product> GetProductByIdAsync(int id);
-        public Product UpdateProduct(Product updatedProduct);
+        public Task<Product> UpdateProduct(Product updatedProduct);
         public Task<Product> CreateProductAsync(Product product);
         public Task RemoveProductAsync(int id);
     }

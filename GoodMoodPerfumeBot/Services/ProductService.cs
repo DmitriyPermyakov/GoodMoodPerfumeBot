@@ -13,14 +13,14 @@ namespace GoodMoodPerfumeBot.Services
             this.repository = productRepository;
         }
 
-        public async Task<Product> CreateProductAsync(CreateProductDTO productDTO, string[] imageIds)
+        public async Task<Product> CreateProductAsync(CreateProductDTO productDTO, List<string> imageUrls)
         {
             Product createdProduct = new Product()
             {
                 ProductName = productDTO.ProductName,
                 ProductDescription = productDTO.ProductDescription,
                 ProductPrice = productDTO.ProductPrice,
-                ProductImageIds = imageIds
+                ProductImageUrls = imageUrls
             };
             return await this.repository.CreateProductAsync(createdProduct);
         }
@@ -40,9 +40,16 @@ namespace GoodMoodPerfumeBot.Services
             await this.repository.RemoveProductAsync(id);
         }
 
-        public Product UpdateProduct(Product updatedProduct)
+        public  Product UpdateProduct(Product updatedProduct)
         {
-            throw new NotImplementedException();
+            //Product productToUpdate = await this.GetProductByIdAsync(updatedProduct.ProductId);
+
+            //if (productToUpdate == null)
+            //    throw new Exception("Product not found");
+
+            throw  new NotImplementedException();
+
+
         }
     }
 }

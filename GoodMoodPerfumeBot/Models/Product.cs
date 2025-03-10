@@ -11,7 +11,7 @@ namespace GoodMoodPerfumeBot.Models
         [Required]
         public string? ProductDescription { get; set; }
         [Required]
-        public string[]? ProductImageIds{ get; set; }
+        public List<string>? ProductImageUrls{ get; set; }
         [Range(1, 100000)]
         [Required]
         public double ProductPrice { get; set; }

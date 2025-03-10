@@ -8,7 +8,7 @@ namespace GoodMoodPerfumeBot.Services
         public Task<List<Product>> GetAllProductsAsync();
         public Task<Product> GetProductByIdAsync(int id);
         public Product UpdateProduct(Product updatedProduct);
-        public Task<Product> CreateProductAsync(CreateProductDTO product, string[] imageIds);
+        public Task<Product> CreateProductAsync(CreateProductDTO product, List<string> imageUrls);
         public Task RemoveProductAsync(int id);
     }
 }

@@ -6,6 +6,7 @@ using System.Net;
 using GoodMoodPerfumeBot.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
 using GoodMoodPerfumeBot.Models;
+using System.Text.Json;
 
 namespace GoodMoodPerfumeBot.Controllers
 {
@@ -73,10 +74,9 @@ namespace GoodMoodPerfumeBot.Controllers
         [HttpPost("createProduct")]
         public async Task<IActionResult> Create([FromForm]CreateProductDTO productDTO)
         {
-            
             try
             {
-                if(!ModelState.IsValid || productDTO == null)
+                if(!ModelState.IsValid || productDTO == null || productDTO.Images == null || productDTO.Images.Count() == 0)
                 {
                     var modelErrors = ModelState.Values.SelectMany(v => v.Errors);
                     List<string> errors = new List<string>();
@@ -91,8 +91,8 @@ namespace GoodMoodPerfumeBot.Controllers
                     });
                 }
 
-                string[] imageIds = this.uploadImageService.UploadImage("files");
-                Product createdProduct = await this.productService.CreateProductAsync(productDTO, imageIds);
+                List<string> imageUrls = await this.uploadImageService.UploadImage(productDTO.Images);
+                Product createdProduct = await this.productService.CreateProductAsync(productDTO, imageUrls);
 
                 Response response = new Response()
                 {
@@ -105,7 +105,7 @@ namespace GoodMoodPerfumeBot.Controllers
                 return CreatedAtRoute(nameof(GetById), new { id = createdProduct.ProductId }, response);
 
             }
-            catch
+            catch(Exception ex)
             {
                 return BadRequest(new Response()
                 {
@@ -113,7 +113,7 @@ namespace GoodMoodPerfumeBot.Controllers
                     IsSuccessful = false,
                     Errors = new List<string>()
                     {
-                        "cant create product"
+                        ex.Message
                     }
                 });
             }

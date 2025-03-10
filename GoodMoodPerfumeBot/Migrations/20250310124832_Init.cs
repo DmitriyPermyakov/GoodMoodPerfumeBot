@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -9,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoodMoodPerfumeBot.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -75,7 +76,7 @@ namespace GoodMoodPerfumeBot.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductName = table.Column<string>(type: "text", nullable: false),
                     ProductDescription = table.Column<string>(type: "text", nullable: false),
-                    ProductImageIds = table.Column<string[]>(type: "text[]", nullable: false),
+                    ProductImageUrls = table.Column<List<string>>(type: "text[]", nullable: false),
                     ProductPrice = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
@@ -191,19 +192,19 @@ namespace GoodMoodPerfumeBot.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ProductId", "ProductDescription", "ProductImageIds", "ProductName", "ProductPrice" },
+                columns: new[] { "ProductId", "ProductDescription", "ProductImageUrls", "ProductName", "ProductPrice" },
                 values: new object[,]
                 {
-                    { 1, "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Лоснящийся Неодимовый Свитер", 1801.8199999999999 },
-                    { 2, "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Потрясающий Неодимовый Стол", 4075.1399999999999 },
-                    { 3, "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Свободный Резиновый Ножницы", 4553.2600000000002 },
-                    { 4, "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Большой Гранитный Кепка", 3490.2399999999998 },
-                    { 5, "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Интеллектуальный Пластиковый Берет", 5894.54 },
-                    { 6, "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Интеллектуальный Кожанный Клатч", 2668.8899999999999 },
-                    { 7, "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Гранитный Шарф", 9624.2099999999991 },
-                    { 8, "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Лоснящийся Кожанный Ножницы", 5456.1300000000001 },
-                    { 9, "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Маленький Натуральный Клатч", 3615.3099999999999 },
-                    { 10, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", new[] { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Пластиковый Ремень", 2648.7600000000002 }
+                    { 1, "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Невероятный Бетонный Майка", 9712.9400000000005 },
+                    { 2, "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Стальной Куртка", 5608.4700000000003 },
+                    { 3, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Кожанный Майка", 3647.7600000000002 },
+                    { 4, "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Неодимовый Кулон", 7126.1700000000001 },
+                    { 5, "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Свободный Гранитный Ботинок", 6554.8299999999999 },
+                    { 6, "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Фантастический Деревянный Плащ", 6078.7700000000004 },
+                    { 7, "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Резиновый Куртка", 6134.1999999999998 },
+                    { 8, "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Маленький Гранитный Сабо", 3445.54 },
+                    { 9, "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Маленький Неодимовый Майка", 7049.04 },
+                    { 10, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Практичный Бетонный Плащ", 8379.8799999999992 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -2,6 +2,6 @@
 {
     public interface IUploadImageService
     {
-        public string[] UploadImage(string formFile);
+        public Task<List<string>> UploadImage(IFormFile[] formFile);
     }
 }

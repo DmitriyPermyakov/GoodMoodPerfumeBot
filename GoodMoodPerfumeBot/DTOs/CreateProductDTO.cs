@@ -9,7 +9,7 @@ namespace GoodMoodPerfumeBot.DTOs
         [Required]
         public string? ProductDescription { get; set; }
         [Required]
-        public IFormFile? Images { get; set; }
+        public IFormFile[]? Images { get; set; }
         
         [Range(1, 100000)]
         [Required]

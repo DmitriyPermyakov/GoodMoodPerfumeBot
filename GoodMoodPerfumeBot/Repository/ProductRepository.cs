@@ -40,9 +40,11 @@ namespace GoodMoodPerfumeBot.Repository
             await this.context.SaveChangesAsync();
         }
 
-        public Product UpdateProduct(Product updatedProduct)
+        public async Task<Product> UpdateProduct(Product updatedProduct)
         {
-            throw new NotImplementedException();
+            var productEnity = this.context.Products.Update(updatedProduct);
+            await this.context.SaveChangesAsync();
+            return await Task.FromResult(productEnity.Entity);
         }
     }
 }
