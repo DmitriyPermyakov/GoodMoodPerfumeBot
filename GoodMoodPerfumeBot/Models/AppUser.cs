@@ -6,8 +6,11 @@ namespace GoodMoodPerfumeBot.Models
     public class AppUser
     {
         [Key]
-        public long UserId { get; set; }
+        public int UserId { get; set; }
+
+        public long? TelegramUserId { get; set; }
         public long? ChatId { get; set; }
+        [Required]
         public string? UserRole { get; set; }
 
     }
