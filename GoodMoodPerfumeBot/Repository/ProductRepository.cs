@@ -41,8 +41,7 @@ namespace GoodMoodPerfumeBot.Repository
             var entity = this.context.Products.Remove(productToDelete);
             await this.context.SaveChangesAsync();
 
-            return entity.Entity;
-            
+            return entity.Entity;            
         }
 
         public async Task<Product> UpdateProductAsync(Product updatedProduct)
