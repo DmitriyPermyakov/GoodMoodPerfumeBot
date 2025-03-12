@@ -15,11 +15,9 @@ namespace GoodMoodPerfumeBot.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService productService;
-        private readonly IUploadImageService uploadImageService;
-        public ProductsController(IProductService productService, IUploadImageService uploadImageService)
+        public ProductsController(IProductService productService)
         {
             this.productService = productService;
-            this.uploadImageService = uploadImageService;
         }
         [HttpGet("getAll")]
         public async Task<IActionResult> GetAll()
@@ -51,10 +49,11 @@ namespace GoodMoodPerfumeBot.Controllers
         {
             try
             {
+                Product product = await this.productService.GetProductByIdAsync(id);
                 return Ok(new Response()
                 {
                     Status = HttpStatusCode.OK,
-                    Result = await this.productService.GetProductByIdAsync(id)
+                    Result = product
                 });
             }
             catch(Exception ex)
@@ -62,21 +61,21 @@ namespace GoodMoodPerfumeBot.Controllers
                 return BadRequest(new Response()
                 {
                     Status = HttpStatusCode.BadRequest,
+                    IsSuccessful = false,
                     Errors = new List<string>()
-                    {
-                        "Content not exists or not found",
+                    {                        
                         $"{ex.Message}"
                     }
                 });
             }
         }
 
-        [HttpPost("createProduct")]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromForm]CreateProductDTO productDTO)
         {
             try
             {
-                if(!ModelState.IsValid || productDTO == null || productDTO.Images == null || productDTO.Images.Count() == 0)
+                if(!ModelState.IsValid || productDTO == null)
                 {
                     var modelErrors = ModelState.Values.SelectMany(v => v.Errors);
                     List<string> errors = new List<string>();
@@ -87,12 +86,12 @@ namespace GoodMoodPerfumeBot.Controllers
                     {
                         Status = HttpStatusCode.BadRequest,
                         IsSuccessful = false,
-                        Errors = errors
+                        Errors = errors,
+                        Result = productDTO ?? new Object()
                     });
                 }
-
-                List<string> imageUrls = await this.uploadImageService.UploadImage(productDTO.Images);
-                Product createdProduct = await this.productService.CreateProductAsync(productDTO, imageUrls);
+                
+                Product createdProduct = await this.productService.CreateProductAsync(productDTO);
 
                 Response response = new Response()
                 {
@@ -100,8 +99,8 @@ namespace GoodMoodPerfumeBot.Controllers
                     Result = createdProduct
                 };
 
-                Console.WriteLine($"************************* {createdProduct.ProductId}");
-
+                foreach (var path in createdProduct.ProductImageUrls)
+                    Console.WriteLine(path);
                 return CreatedAtRoute(nameof(GetById), new { id = createdProduct.ProductId }, response);
 
             }
@@ -153,6 +152,49 @@ namespace GoodMoodPerfumeBot.Controllers
                     {
                         ex.Message
                     }
+                });
+            }
+        }
+        [HttpPut("update")]
+        public async Task<IActionResult> Update([FromForm] UpdateProductDTO updatedProductDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid || updatedProductDto == null)
+                {
+                    var modelErrors = ModelState.Values.SelectMany(v => v.Errors);
+                    List<string> errors = new List<string>();
+                    foreach (var e in modelErrors)
+                        errors.Add(e.ErrorMessage);
+
+                    return BadRequest(new Response()
+                    {
+                        Status = HttpStatusCode.BadRequest,
+                        IsSuccessful = false,
+                        Errors = errors,
+                        Result = updatedProductDto ?? new Object()
+                    });
+                }
+
+                Product updatedProduct = await this.productService.UpdateProductAsync(updatedProductDto);
+
+                return Ok(new Response()
+                {
+                    Status = HttpStatusCode.OK,
+                    Result = updatedProduct
+                });
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Status = HttpStatusCode.BadRequest,
+                    IsSuccessful = false,
+                    Errors = new List<string>()
+                    {
+                        ex.Message
+                    }                
                 });
             }
         }

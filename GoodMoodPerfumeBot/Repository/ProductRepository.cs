@@ -30,17 +30,22 @@ namespace GoodMoodPerfumeBot.Repository
                     .FirstOrDefaultAsync(p => p.ProductId == id);
         }
 
-        public async Task RemoveProductAsync(int id)
+        public async Task<Product> RemoveProductAsync(int id)
         {
             Product productToDelete = await this.context.Products.FindAsync(id);
             if (productToDelete == null)
+            {
                 throw new Exception("Product not found");
+            }
 
-            this.context.Products.Remove(productToDelete);
+            var entity = this.context.Products.Remove(productToDelete);
             await this.context.SaveChangesAsync();
+
+            return entity.Entity;
+            
         }
 
-        public async Task<Product> UpdateProduct(Product updatedProduct)
+        public async Task<Product> UpdateProductAsync(Product updatedProduct)
         {
             var productEnity = this.context.Products.Update(updatedProduct);
             await this.context.SaveChangesAsync();

@@ -76,7 +76,7 @@ namespace GoodMoodPerfumeBot.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductName = table.Column<string>(type: "text", nullable: false),
                     ProductDescription = table.Column<string>(type: "text", nullable: false),
-                    ProductImageUrls = table.Column<List<string>>(type: "text[]", nullable: false),
+                    ProductImageUrls = table.Column<List<string>>(type: "text[]", nullable: true),
                     ProductPrice = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
@@ -195,16 +195,16 @@ namespace GoodMoodPerfumeBot.Migrations
                 columns: new[] { "ProductId", "ProductDescription", "ProductImageUrls", "ProductName", "ProductPrice" },
                 values: new object[,]
                 {
-                    { 1, "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Невероятный Бетонный Майка", 9712.9400000000005 },
-                    { 2, "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Стальной Куртка", 5608.4700000000003 },
-                    { 3, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Кожанный Майка", 3647.7600000000002 },
-                    { 4, "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Неодимовый Кулон", 7126.1700000000001 },
-                    { 5, "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Свободный Гранитный Ботинок", 6554.8299999999999 },
-                    { 6, "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Фантастический Деревянный Плащ", 6078.7700000000004 },
-                    { 7, "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Великолепный Резиновый Куртка", 6134.1999999999998 },
-                    { 8, "The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Маленький Гранитный Сабо", 3445.54 },
-                    { 9, "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Маленький Неодимовый Майка", 7049.04 },
-                    { 10, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Практичный Бетонный Плащ", 8379.8799999999992 }
+                    { 1, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Интеллектуальный Стальной Шарф", 7446.5100000000002 },
+                    { 2, "The Football Is Good For Training And Recreational Purposes", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Интеллектуальный Меховой Стул", 9247.8799999999992 },
+                    { 3, "The Football Is Good For Training And Recreational Purposes", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Практичный Бетонный Ремень", 4547.6700000000001 },
+                    { 4, "The Football Is Good For Training And Recreational Purposes", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Эргономичный Стальной Куртка", 8416.2800000000007 },
+                    { 5, "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Практичный Пластиковый Портмоне", 7302.6999999999998 },
+                    { 6, "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Потрясающий Деревянный Кепка", 6951.8800000000001 },
+                    { 7, "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Большой Натуральный Кепка", 8787.9799999999996 },
+                    { 8, "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Грубый Бетонный Стол", 9665.0900000000001 },
+                    { 9, "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Практичный Пластиковый Берет", 2517.6199999999999 },
+                    { 10, "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016", new List<string> { "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460" }, "Фантастический Бетонный Клатч", 9980.6399999999994 }
                 });
 
             migrationBuilder.CreateIndex(

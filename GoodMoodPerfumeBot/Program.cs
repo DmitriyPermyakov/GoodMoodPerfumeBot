@@ -17,7 +17,15 @@ namespace GoodMoodPerfumeBot
             builder.Services.AddPostgreSQLContext(builder.Configuration);
             builder.Services.AddTransient<IProductRepository, ProductRepository>();
             builder.Services.AddTransient<IProductService, ProductService>();
-            builder.Services.AddTransient<IUploadImageService, UploadImageService>();
+            builder.Services.AddTransient<IImageService, ImageService>();
+
+            builder.Services.AddCors(opts =>
+            {
+                opts.AddDefaultPolicy(p =>
+                {
+                    p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
             //builder.Services.AddPostgreSQLIdentityContext(); 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -32,11 +40,11 @@ namespace GoodMoodPerfumeBot
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseCors();
 
             app.MapControllers();
 
