@@ -11,7 +11,7 @@ namespace GoodMoodPerfumeBot.Repository
         {
             this.context = context;
         }
-        public async Task<AppUser> Create(AppUser appUser)
+        public async Task<AppUser> CreateAsync(AppUser appUser)
         {
             var userEntity = await this.context.AppUsers.AddAsync(appUser);
             await this.context.SaveChangesAsync();
@@ -24,17 +24,22 @@ namespace GoodMoodPerfumeBot.Repository
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<List<AppUser>> GetAll()
+        public async Task<List<AppUser>> GetAllAsync()
         {
             return await this.context.AppUsers.ToListAsync();
         }
 
-        public async Task<AppUser> GetUserById(int id)
+        public async Task<AppUser> GetUserByIdAsync(int id)
         {
             return await this.context.AppUsers.FirstOrDefaultAsync(u => u.UserId == id);
         }
 
-        public async Task<AppUser> Update(AppUser appUser)
+        public async Task<AppUser> GetUserByTelegramUserIdAsync(long? telegramUserId)
+        {
+            return await this.context.AppUsers.FirstOrDefaultAsync(u => u.TelegramUserId == telegramUserId);
+        }
+
+        public async Task<AppUser> UpdateAsync(AppUser appUser)
         {
             var userEntity = this.context.AppUsers.Update(appUser);
             await this.context.SaveChangesAsync();

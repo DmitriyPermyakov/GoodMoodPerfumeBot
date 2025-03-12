@@ -4,10 +4,11 @@ namespace GoodMoodPerfumeBot.Repository
 {
     public interface IUserRepository
     {
-        public Task<AppUser> Create(AppUser appUser);
-        public Task<AppUser> GetUserById(int id);
-        public Task<List<AppUser>> GetAll();
-        public Task<AppUser> Update(AppUser appUser);
+        public Task<AppUser> CreateAsync(AppUser appUser);
+        public Task<AppUser> GetUserByIdAsync(int id);
+        public Task<List<AppUser>> GetAllAsync();
+        public Task<AppUser> UpdateAsync(AppUser appUser);
+        public Task<AppUser> GetUserByTelegramIdAsync(long? telegramUserId);
         public Task Delete(AppUser appUser);
 
     }
