@@ -49,6 +49,17 @@ namespace GoodMoodPerfumeBot.Controllers
         {
             try
             {
+                if (id < 1)
+                    return BadRequest(new Response()
+                    {
+                        Status = HttpStatusCode.BadRequest,
+                        IsSuccessful = false,
+                        Errors = new List<string>()
+                        {
+                            "Id cant be less than one"
+                        }
+                    });
+
                 Product product = await this.productService.GetProductByIdAsync(id);
                 return Ok(new Response()
                 {
