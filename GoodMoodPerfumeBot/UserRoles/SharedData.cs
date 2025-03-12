@@ -18,6 +18,34 @@
             };
             }
         }
+
+        public static class PayStatus
+        {
+            public const string Payed = "Payed";
+            public const string NotPayed = "NotPayed";
+            public static IReadOnlyList<string> AllStatuses
+            {
+                get => new List<string>()
+                {
+                    Payed, NotPayed
+                };
+            }
+        }
+
+        public static class OrderStatus
+        {
+            public const string NotShipped = "NotShipped";
+            public const string Shipped = "Shipped";
+
+            public static IReadOnlyList<string> AllStatuses
+            {
+                get => new List<string>()
+                {
+                    Shipped, NotShipped
+                };
+            }
+
+        }
     }
     
 }

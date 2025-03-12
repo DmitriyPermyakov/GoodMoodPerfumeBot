@@ -10,6 +10,8 @@ namespace GoodMoodPerfumeBot.Repositiory
         public AppDatabaseContext(DbContextOptions options) : base(options) { }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {            
