@@ -34,7 +34,7 @@ namespace GoodMoodPerfumeBot.Repository
             return await this.context.AppUsers.FirstOrDefaultAsync(u => u.UserId == id);
         }
 
-        public async Task<AppUser> GetUserByTelegramUserIdAsync(long? telegramUserId)
+        public async Task<AppUser> GetUserByTelegramIdAsync(long? telegramUserId)
         {
             return await this.context.AppUsers.FirstOrDefaultAsync(u => u.TelegramUserId == telegramUserId);
         }
