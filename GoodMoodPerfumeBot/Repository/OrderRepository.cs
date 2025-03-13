@@ -1,5 +1,7 @@
 ﻿using GoodMoodPerfumeBot.Models;
 using GoodMoodPerfumeBot.Repositiory;
+using GoodMoodPerfumeBot.UserRoles;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoodMoodPerfumeBot.Repository
 {
@@ -16,34 +18,54 @@ namespace GoodMoodPerfumeBot.Repository
             return orderEntity.Entity;
         }
 
-        public Task<List<Order>> GetAllUserOrders(long telegramUserId)
+        public async Task<List<Order>> GetAllUserOrders(long telegramUserId)
         {
-            throw new NotImplementedException();
+            var userOrders = await this.context.Orders
+                .Where(o => o.AppUser.TelegramUserId == telegramUserId)
+                .ToListAsync();
+
+            return userOrders;
         }
 
-        public Task<List<Order>> GetNotPayedOrdersAsync()
+        public async Task<List<Order>> GetNotPayedOrdersAsync()
         {
-            throw new NotImplementedException();
+            var userNotPayedOrders = await this.context.Orders
+                .Where(o => o.PayStatus.Equals(SharedData.PayStatus.NotPayed))
+                .ToListAsync();
+
+            return userNotPayedOrders;
         }
 
-        public Task<List<Order>> GetNotShippedOrdersAsync()
+        public async Task<List<Order>> GetNotShippedOrdersAsync()
         {
-            throw new NotImplementedException();
+            var userNotShippedOrders = await this.context.Orders
+                .Where(o => o.OrderStatus.Equals(SharedData.OrderStatus.NotShipped))
+                .ToListAsync();
+
+            return userNotShippedOrders;
         }
 
-        public Task<Order> GetOrderByIdAsync(int id)
+        public async Task<Order> GetOrderByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var order = await this.context.Orders
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
+            return order;
         }
 
-        public Task RemoveAllNotPayedOrdersAsync()
+        public async Task<int> RemoveAllNotPayedOrdersAsync()
         {
-            throw new NotImplementedException();
+            int count = await this.context.Orders
+                .Where(o => o.PayStatus.Equals(SharedData.PayStatus.NotPayed))
+                .ExecuteDeleteAsync();
+
+            return count;
         }
 
-        public Task RemoveOrderAsync(int id)
+        public async Task<int> RemoveOrderAsync(int id)
         {
-            throw new NotImplementedException();
+            int count = await this.context.Orders.Where(o => o.OrderId == id).ExecuteDeleteAsync();
+            return count;
         }
     }
 }

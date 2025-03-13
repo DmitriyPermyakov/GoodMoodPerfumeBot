@@ -37,10 +37,9 @@ namespace GoodMoodPerfumeBot.Repository
             {
                 throw new Exception("Product not found");
             }
-
+            
             var entity = this.context.Products.Remove(productToDelete);
             await this.context.SaveChangesAsync();
-
             return entity.Entity;            
         }
 

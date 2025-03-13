@@ -9,7 +9,7 @@ namespace GoodMoodPerfumeBot.Repository
         public Task<List<Order>> GetAllUserOrders(long telegramUserId);
         public Task<List<Order>> GetNotShippedOrdersAsync();
         public Task<List<Order>> GetNotPayedOrdersAsync();
-        public Task RemoveAllNotPayedOrdersAsync();
-        public Task RemoveOrderAsync(int id);
+        public Task<int> RemoveAllNotPayedOrdersAsync();
+        public Task<int> RemoveOrderAsync(int id);
     }
 }
