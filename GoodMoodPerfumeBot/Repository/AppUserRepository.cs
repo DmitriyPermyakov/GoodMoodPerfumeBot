@@ -14,14 +14,13 @@ namespace GoodMoodPerfumeBot.Repository
         public async Task<AppUser> CreateAsync(AppUser appUser)
         {
             var userEntity = await this.context.AppUsers.AddAsync(appUser);
-            await this.context.SaveChangesAsync();
             return userEntity.Entity;
         }
 
         public async Task Delete(AppUser appUser)
         {
             this.context.AppUsers.Remove(appUser);
-            await this.context.SaveChangesAsync();
+            await Task.CompletedTask;
         }
 
         public async Task<List<AppUser>> GetAllAsync()
@@ -42,9 +41,14 @@ namespace GoodMoodPerfumeBot.Repository
         public async Task<AppUser> UpdateAsync(AppUser appUser)
         {
             var userEntity = this.context.AppUsers.Update(appUser);
-            await this.context.SaveChangesAsync();
 
-            return userEntity.Entity;
+            return await Task.FromResult(userEntity.Entity);
         }
+
+        public async Task SaveAsync()
+        {
+            await this.context.SaveChangesAsync();
+        }
+
     }
 }

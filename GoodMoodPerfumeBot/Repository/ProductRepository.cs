@@ -14,9 +14,8 @@ namespace GoodMoodPerfumeBot.Repository
         public async Task<Product> CreateProductAsync(Product product)
         {
             var entity =  await this.context.Products.AddAsync(product);
-            await this.context.SaveChangesAsync();
 
-            return entity.Entity;
+            return await Task.FromResult(entity.Entity);
         }
 
         public async Task<List<Product>> GetAllProductsAsync()
@@ -39,16 +38,19 @@ namespace GoodMoodPerfumeBot.Repository
             }
             
             var entity = this.context.Products.Remove(productToDelete);
-            await this.context.SaveChangesAsync();
-            return entity.Entity;            
+            return await Task.FromResult(entity.Entity);            
         }
 
         public async Task<Product> UpdateProductAsync(Product updatedProduct)
         {
             var productEnity = this.context.Products.Update(updatedProduct);
-            await this.context.SaveChangesAsync();
 
-            return productEnity.Entity;
+            return await Task.FromResult(productEnity.Entity);
+        }
+
+        public async Task SaveAsync()
+        {
+            await this.context.SaveChangesAsync();
         }
     }
 }

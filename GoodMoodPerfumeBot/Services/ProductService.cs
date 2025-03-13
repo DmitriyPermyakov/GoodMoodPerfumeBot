@@ -28,7 +28,10 @@ namespace GoodMoodPerfumeBot.Services
                 ProductPrice = productDTO.ProductPrice,
                 ProductImageUrls = imagesUrls
             };
-            return await this.repository.CreateProductAsync(createdProduct);
+
+            Product productFromDb =  await this.repository.CreateProductAsync(createdProduct);
+            await this.repository.SaveAsync();
+            return productFromDb;
         }
 
         public async Task<List<Product>> GetAllProductsAsync()
@@ -79,6 +82,7 @@ namespace GoodMoodPerfumeBot.Services
             productToUpdate.ProductImageUrls = images;
 
             var updatedProductFromDb =  await this.repository.UpdateProductAsync(productToUpdate);
+            await this.repository.SaveAsync();
 
             return updatedProductFromDb;
         }

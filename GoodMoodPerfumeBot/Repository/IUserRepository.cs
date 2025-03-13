@@ -10,6 +10,7 @@ namespace GoodMoodPerfumeBot.Repository
         public Task<AppUser> UpdateAsync(AppUser appUser);
         public Task<AppUser> GetUserByTelegramIdAsync(long? telegramUserId);
         public Task Delete(AppUser appUser);
+        public Task SaveAsync();
 
     }
 }

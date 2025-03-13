@@ -66,6 +66,7 @@ namespace GoodMoodPerfumeBot.Services
                 userToUpdate.ChatId = chatId;
 
             var updatedUser = await this.repository.UpdateAsync(userToUpdate);
+            await this.repository.SaveAsync();
 
             return updatedUser;
         }

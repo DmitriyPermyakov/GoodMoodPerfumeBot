@@ -18,6 +18,12 @@ namespace GoodMoodPerfumeBot
             builder.Services.AddTransient<IProductRepository, ProductRepository>();
             builder.Services.AddTransient<IProductService, ProductService>();
             builder.Services.AddTransient<IImageService, ImageService>();
+            builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddTransient<IUserRepository, AppUserRepository>();
+            builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+            builder.Services.AddTransient<IOrderService, OrderService>();
+            builder.Services.AddTransient<IOrderItemService, OrderItemService>();
+            builder.Services.AddTransient<IOrderItemRepository, OrderItemRepository>();
 
             builder.Services.AddCors(opts =>
             {

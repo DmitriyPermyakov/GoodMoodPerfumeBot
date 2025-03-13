@@ -1,4 +1,5 @@
-﻿using GoodMoodPerfumeBot.Models;
+﻿using GoodMoodPerfumeBot.DTOs;
+using GoodMoodPerfumeBot.Models;
 using GoodMoodPerfumeBot.Repositiory;
 using GoodMoodPerfumeBot.UserRoles;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +67,17 @@ namespace GoodMoodPerfumeBot.Repository
         {
             int count = await this.context.Orders.Where(o => o.OrderId == id).ExecuteDeleteAsync();
             return count;
+        }
+
+        public async Task UpdateOrderAsync(Order updatedOrder)
+        {
+            this.context.Orders.Update(updatedOrder);
+            await Task.CompletedTask;
+        }
+
+        public async Task SaveAsync()
+        {
+            await this.context.SaveChangesAsync();
         }
     }
 }
