@@ -18,7 +18,6 @@ namespace GoodMoodPerfumeBot.Services
             {
                 orderItems.Add(new OrderItem
                 {
-                    Order = order,
                     ProductId = item.ProductId,
                     Quantity = item.Quantity
                 });

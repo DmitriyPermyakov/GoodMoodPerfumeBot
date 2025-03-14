@@ -37,9 +37,7 @@ namespace GoodMoodPerfumeBot.Services
         public async Task<AppUser> GetUserByTelegramIdAsync(long? telegramUserId)
         {
             AppUser appUser = await this.repository.GetUserByTelegramIdAsync(telegramUserId);
-            if (appUser == null)
-                throw new Exception("User with this id not found");
-
+            
             return appUser;
         }
 

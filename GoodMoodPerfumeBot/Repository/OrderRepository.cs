@@ -23,6 +23,9 @@ namespace GoodMoodPerfumeBot.Repository
         {
             var userOrders = await this.context.Orders
                 .Where(o => o.AppUser.TelegramUserId == telegramUserId)
+                .Include(o => o.AppUser)
+                .Include(o => o.OrderItems)
+                .ThenInclude(i => i.Product)
                 .ToListAsync();
 
             return userOrders;
@@ -32,6 +35,9 @@ namespace GoodMoodPerfumeBot.Repository
         {
             var userNotPayedOrders = await this.context.Orders
                 .Where(o => o.PayStatus.Equals(SharedData.PayStatus.NotPayed))
+                .Include(o => o.AppUser)
+                .Include(o => o.OrderItems)
+                .ThenInclude(i => i.Product)
                 .ToListAsync();
 
             return userNotPayedOrders;
@@ -41,6 +47,9 @@ namespace GoodMoodPerfumeBot.Repository
         {
             var userNotShippedOrders = await this.context.Orders
                 .Where(o => o.OrderStatus.Equals(SharedData.OrderStatus.NotShipped))
+                .Include(o => o.AppUser)
+                .Include(o => o.OrderItems)
+                .ThenInclude(i => i.Product)
                 .ToListAsync();
 
             return userNotShippedOrders;
@@ -49,7 +58,10 @@ namespace GoodMoodPerfumeBot.Repository
         public async Task<Order> GetOrderByIdAsync(int id)
         {
             var order = await this.context.Orders
-                .FirstOrDefaultAsync(o => o.OrderId == id);
+                .Where(o => o.OrderId == id)
+                .Include(o => o.OrderItems)
+                .ThenInclude(i => i.Product)
+                .FirstOrDefaultAsync();
 
             return order;
         }

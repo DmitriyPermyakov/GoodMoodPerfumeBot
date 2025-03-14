@@ -1,8 +1,10 @@
 ﻿using GoodMoodPerfumeBot.DTOs;
+using GoodMoodPerfumeBot.Models;
 using GoodMoodPerfumeBot.ServerResponse;
 using GoodMoodPerfumeBot.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace GoodMoodPerfumeBot.Controllers
 {
@@ -15,6 +17,80 @@ namespace GoodMoodPerfumeBot.Controllers
         public OrderController(IOrderService orderService)
         {
             this.orderService = orderService;
+        }
+
+        [HttpGet("getById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                if (id < 0)
+                    return BadRequest(new Response()
+                    {
+                        Status = HttpStatusCode.BadRequest,
+                        IsSuccessful = false,
+                        Errors =  new List<string>()
+                        {
+                            "Order not found"
+                        }
+                    });
+
+                Order order = await this.orderService.GetOrderByIdAsync(id);
+                return Ok(new Response()
+                {
+                    Status = HttpStatusCode.OK,
+                    Result = order
+                });
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Status = HttpStatusCode.BadRequest,
+                    IsSuccessful = false,
+                    Errors = new List<string>()
+                    {
+                            "Order not found"
+                    }
+                });
+            }
+        }
+        [HttpGet("getAllUserOrders/{id}")]
+        public async Task<IActionResult> GetAllUserOrders(long id)
+        {
+            try
+            {
+                if (id < 0)
+                    return BadRequest(new Response()
+                    {
+                        Status = HttpStatusCode.BadRequest,
+                        IsSuccessful = false,
+                        Errors = new List<string>()
+                        {
+                            "Bad user id"
+                        }
+                    });
+
+                List<Order> userOrders = await this.orderService.GetAllUserOrdersAsync(id);
+
+                return Ok(new Response()
+                {
+                    Status = HttpStatusCode.OK,
+                    Result = userOrders
+                });
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Status = HttpStatusCode.BadRequest,
+                    IsSuccessful = false,
+                    Errors = new List<string>()
+                    {
+                        ex.Message
+                    }
+                });
+            }
         }
 
         
@@ -61,6 +137,42 @@ namespace GoodMoodPerfumeBot.Controllers
                     {
                         ex.Message
                     }                    
+                });
+            }
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> Update([FromBody] UpdateOrderDTO updateOrderDTO)
+        {
+            try
+            {
+                if (!ModelState.IsValid || updateOrderDTO == null)
+                    return BadRequest(new Response()
+                    {
+                        Status = HttpStatusCode.BadRequest,
+                        IsSuccessful = false,
+                        Errors = new List<string>()
+                        {
+                            "Cant update order",
+
+                        },
+                        Result = updateOrderDTO
+                    });
+
+                await this.orderService.UpdateOrderAsync(updateOrderDTO);
+
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Status = HttpStatusCode.BadRequest,
+                    IsSuccessful = false,
+                    Errors = new List<string>()
+                    {
+                        ex.Message
+                    }
                 });
             }
         }
