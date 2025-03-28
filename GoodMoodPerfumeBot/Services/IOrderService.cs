@@ -13,5 +13,7 @@ namespace GoodMoodPerfumeBot.Services
         public Task<int> RemoveAllNotPayedOrdersAsync();
         public Task<int> RemoveOrderAsync(int id);
         public Task UpdateOrderAsync(UpdateOrderDTO updatedOrder);
+        public Task SetOrderStatusShippedAsync(int id);
+        public Task SetOrderStatusPayedAsync(int id);
     }
 }

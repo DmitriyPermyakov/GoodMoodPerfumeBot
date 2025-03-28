@@ -17,16 +17,16 @@ namespace GoodMoodPerfumeBot.Services
 
         public async Task<Product> CreateProductAsync(CreateProductDTO productDTO)
         {
-            var imagesUrls = new List<string>();
-            if (productDTO.Images != null && productDTO.Images.Length > 0)
-               imagesUrls = await this.imageService.UploadImageAsync(productDTO?.Images, productDTO?.ProductName);
+            string imagesUrl = string.Empty;
+            if (productDTO.Image != null && productDTO.Image.Length > 0)
+               imagesUrl = await this.imageService.UploadImageAsync(productDTO?.Image, productDTO?.Name);
 
             Product createdProduct = new Product()
             {
-                ProductName = productDTO.ProductName,
-                ProductDescription = productDTO.ProductDescription,
-                ProductPrice = productDTO.ProductPrice,
-                ProductImageUrls = imagesUrls
+                ProductName = productDTO.Name,
+                ProductDescription = productDTO.Description,
+                ProductPrice = productDTO.Price,
+                ProductImageUrl = imagesUrl
             };
 
             Product productFromDb =  await this.repository.CreateProductAsync(createdProduct);
@@ -50,36 +50,43 @@ namespace GoodMoodPerfumeBot.Services
         public async Task RemoveProductAsync(int id)
         {
             Product deletedProduct = await this.repository.RemoveProductAsync(id);
-            this.imageService.DeleteImages(deletedProduct?.ProductImageUrls);
+            this.imageService.DeleteImages(deletedProduct?.ProductImageUrl);
             this.imageService.DeleteFolder(deletedProduct.ProductName);
         }
 
         public async Task<Product> UpdateProductAsync(UpdateProductDTO updatedProductDto)
         {
-            Product productToUpdate = await this.GetProductByIdAsync(updatedProductDto.ProductId);
+            if(!string.IsNullOrEmpty(updatedProductDto.OldImagesUrl) && updatedProductDto.ProductImageFile != null)
+            {
+                throw new Exception("Только одно изображение на один продукт");
+            } else if(string.IsNullOrEmpty(updatedProductDto.OldImagesUrl) && updatedProductDto.ProductImageFile == null)
+            {
+                throw new Exception("По крайней мере одно изображение должно быть загружено");
+            }
+
+            Product productToUpdate = await this.GetProductByIdAsync(updatedProductDto.Id);
 
             if (productToUpdate == null)
                 throw new Exception("Product not found");          
 
+            // если страрая картинка удалена, то удаляем файл картинки
+            if(string.IsNullOrEmpty(updatedProductDto.OldImagesUrl))
+                this.imageService.DeleteImages(productToUpdate.ProductImageUrl);
+
+
+            if (!updatedProductDto.Name.Equals(productToUpdate.ProductName))
+                this.imageService.RenameProductImageFolder(productToUpdate.ProductName, updatedProductDto.Name);
+
+            string image = string.Empty;
+            //если передан файл для новой картинки, то загружаем его
+            if(updatedProductDto.ProductImageFile != null && updatedProductDto.ProductImageFile.Length > 0)
+               image = await this.imageService.UploadImageAsync(updatedProductDto.ProductImageFile, updatedProductDto.Name);
+
             
-            var imagesToDelete =  productToUpdate.ProductImageUrls.Except(updatedProductDto.OldImagesUrls ?? new List<string>()).ToList();
-            this.imageService.DeleteImages(imagesToDelete);
-
-            List<string> images = new List<string>();
-
-            if (!updatedProductDto.ProductName.Equals(productToUpdate.ProductName))
-                this.imageService.RenameProductImageFolder(productToUpdate.ProductName, updatedProductDto.ProductName);
-
-            if(updatedProductDto.ProductImageFiles != null && updatedProductDto.ProductImageFiles.Length > 0)
-               images.AddRange(await this.imageService.UploadImageAsync(updatedProductDto.ProductImageFiles, updatedProductDto.ProductName));
-
-            if(updatedProductDto.OldImagesUrls != null && updatedProductDto.OldImagesUrls.Count() > 0)
-                images.AddRange(updatedProductDto.OldImagesUrls);
-
-            productToUpdate.ProductName = updatedProductDto.ProductName;
-            productToUpdate.ProductDescription = updatedProductDto.ProductDescription;
-            productToUpdate.ProductPrice = updatedProductDto.ProductPrice;
-            productToUpdate.ProductImageUrls = images;
+            productToUpdate.ProductName = updatedProductDto.Name;
+            productToUpdate.ProductDescription = updatedProductDto.Description;
+            productToUpdate.ProductPrice = updatedProductDto.Price;
+            productToUpdate.ProductImageUrl = image;
 
             var updatedProductFromDb =  await this.repository.UpdateProductAsync(productToUpdate);
             await this.repository.SaveAsync();

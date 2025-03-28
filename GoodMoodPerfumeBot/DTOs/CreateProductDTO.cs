@@ -5,13 +5,15 @@ namespace GoodMoodPerfumeBot.DTOs
     public class CreateProductDTO
     {        
         [Required]
-        public string? ProductName { get; set; }
+        public string? Name { get; set; }
         [Required]
-        public string? ProductDescription { get; set; }
-        public IFormFile[]? Images { get; set; }
+        public string? Description { get; set; }
+        public IFormFile? Image { get; set; }
+        [Required]
+        public string? Category { get; set; }
         
         [Range(1, 100000)]
         [Required]
-        public double ProductPrice { get; set; }
+        public double Price { get; set; }
     }
 }

@@ -177,5 +177,33 @@ namespace GoodMoodPerfumeBot.Controllers
             }
         }
 
+        [HttpPut("setShipped/{id}")]
+        public async Task<IActionResult> SetShipped(int id)
+        {
+            try
+            {
+                await this.orderService.SetOrderStatusShippedAsync(id);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("setPayed/{id}")]
+        public async Task<IActionResult> SetPayed(int id)
+        {
+            try
+            {
+                await this.orderService.SetOrderStatusPayedAsync(id);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

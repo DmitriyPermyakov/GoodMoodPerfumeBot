@@ -7,6 +7,7 @@ using GoodMoodPerfumeBot.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
 using GoodMoodPerfumeBot.Models;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GoodMoodPerfumeBot.Controllers
 {
@@ -110,7 +111,7 @@ namespace GoodMoodPerfumeBot.Controllers
                     Result = createdProduct
                 };
 
-                foreach (var path in createdProduct.ProductImageUrls)
+                foreach (var path in createdProduct.ProductImageUrl)
                     Console.WriteLine(path);
                 return CreatedAtRoute(nameof(GetById), new { id = createdProduct.ProductId }, response);
 
@@ -183,7 +184,7 @@ namespace GoodMoodPerfumeBot.Controllers
                         Status = HttpStatusCode.BadRequest,
                         IsSuccessful = false,
                         Errors = errors,
-                        Result = updatedProductDto ?? new Object()
+                        Result = updatedProductDto ?? new object()
                     });
                 }
 

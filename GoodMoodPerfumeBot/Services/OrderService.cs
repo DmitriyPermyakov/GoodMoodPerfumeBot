@@ -72,7 +72,10 @@ namespace GoodMoodPerfumeBot.Services
                 OrderStatus = SharedData.OrderStatus.NotShipped,
                 PayStatus = SharedData.PayStatus.NotPayed,  
                 OrderItems = orderItems,
-                Address = createOrderDTO.Address
+                Address = createOrderDTO.Address,
+                Name = createOrderDTO.Name,
+                Phone = createOrderDTO.Phone,
+                Delivery = createOrderDTO.Delivery
             };
             var orderToCreate = await this.repository.CreateOrderAsync(order);
 
@@ -123,6 +126,30 @@ namespace GoodMoodPerfumeBot.Services
             await this.repository.UpdateOrderAsync(orderToUpdate);
             await this.repository.SaveAsync();
             
+        }
+
+        public async Task SetOrderStatusShippedAsync(int id)
+        {
+            var orderToUpdate = await this.repository.GetOrderByIdAsync(id);
+
+            if (orderToUpdate == null)
+                throw new Exception("Product not found");
+
+            orderToUpdate.OrderStatus = SharedData.OrderStatus.Shipped;
+            await this.repository.UpdateOrderAsync(orderToUpdate);
+            await this.repository.SaveAsync();
+        }
+
+        public async Task SetOrderStatusPayedAsync(int id)
+        {
+            var orderToUpdate = await this.repository.GetOrderByIdAsync(id);
+
+            if (orderToUpdate == null)
+                throw new Exception("Product not found");
+
+            orderToUpdate.PayStatus = SharedData.PayStatus.Payed;
+            await this.repository.UpdateOrderAsync(orderToUpdate);
+            await this.repository.SaveAsync();
         }
     }
 }

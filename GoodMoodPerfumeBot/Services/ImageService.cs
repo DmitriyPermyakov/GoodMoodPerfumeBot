@@ -11,27 +11,23 @@ namespace GoodMoodPerfumeBot.Services
         {
             this.environment = environment;
         }
-        public async Task<List<string>> UploadImageAsync(IFormFile[] filesToUpload, string productName)
+        public async Task<string> UploadImageAsync(IFormFile fileToUpload, string productName)
         {
             string images = "images";
             var uploadPath = Path.Combine(environment.WebRootPath, images, productName);
             
             if (!Directory.Exists(uploadPath))
                 Directory.CreateDirectory(uploadPath);
-            
-            List<string> uploadedFiles = new List<string>();            
 
-            foreach(var file in filesToUpload)
-            {              
-                var filePath = Path.Combine(uploadPath, file.FileName);
+            string uploadedFiles;
+            var filePath = Path.Combine(uploadPath, fileToUpload.FileName);
 
-                using(var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-
-                uploadedFiles.Add(Path.Combine(images, productName, file.FileName));
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await fileToUpload.CopyToAsync(stream);
             }
+
+            uploadedFiles = Path.Combine(images, productName, fileToUpload.FileName);
 
             return uploadedFiles;
         }
@@ -48,24 +44,13 @@ namespace GoodMoodPerfumeBot.Services
             }
         }
 
-        public void DeleteImages(List<string> imagesToDelete)
+        public void DeleteImages(string imageToDelete)
         {
-            if(imagesToDelete.Count() > 0)
-            {
-                foreach (var item in imagesToDelete)
-                {
-                    var fullPath = Path.Combine(environment.WebRootPath, item);
-                    if(File.Exists(fullPath))
-                    {                       
-                        File.Delete(fullPath);                        
-                    } 
-                    else
-                    {
-                        continue;
-                    }
-                    
-                }
-            }
+            if (string.IsNullOrEmpty(imageToDelete))
+                return;
+            var fullPath = Path.Combine(environment.WebRootPath, imageToDelete);
+            if (File.Exists(fullPath))
+                File.Delete(fullPath);
         }
 
         public void DeleteFolder(string productName)

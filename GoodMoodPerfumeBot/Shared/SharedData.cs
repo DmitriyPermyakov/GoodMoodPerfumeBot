@@ -47,6 +47,21 @@
             }
 
         }
+
+        public static class Delivery
+        {
+            public const string CDEK = "CDEK";
+            public const string Post = "Post";
+            public const string Courier = "Courier";
+
+            public static IReadOnlyList<string> AllDeliveries
+            {
+                get => new List<string>()
+                {
+                    CDEK, Post, Courier
+                };
+            }
+        }
     }
     
 }
