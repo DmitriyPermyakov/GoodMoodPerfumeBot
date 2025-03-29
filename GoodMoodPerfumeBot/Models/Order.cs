@@ -6,7 +6,7 @@ namespace GoodMoodPerfumeBot.Models
     public class Order
     {
         [Key]
-        public int OrderId { get; set; }
+        public int Id { get; set; }
         [ForeignKey(nameof(AppUser))]
         public int UserId { get; set; }
         public AppUser? AppUser { get; set; }
