@@ -12,7 +12,7 @@
 *.sln.docstates
 /GoodMoodPerfumeBot/appsettings.json
 /GoodMoodPerfumeBot/appsettings.Development.json
-/GoodMoodPerfumeBot/wwwroot/
+/GoodMoodPerfumeBot/wwwroot
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)
