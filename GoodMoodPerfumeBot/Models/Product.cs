@@ -5,14 +5,16 @@ namespace GoodMoodPerfumeBot.Models
     public class Product
     {
         [Key]        
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string? ProductName { get; set; }
+        public string? Name { get; set; }
         [Required]
-        public string? ProductDescription { get; set; }
-        public string? ProductImageUrl { get; set; }
+        public string? Category { get; set; }
+        [Required]
+        public string? Description { get; set; }
+        public string? ImageUrl { get; set; }
         [Range(1, 100000)]
         [Required]
-        public double ProductPrice { get; set; }
+        public double Price { get; set; }
     }
 }

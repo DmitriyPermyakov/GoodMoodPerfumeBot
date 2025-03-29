@@ -23,10 +23,11 @@ namespace GoodMoodPerfumeBot.Services
 
             Product createdProduct = new Product()
             {
-                ProductName = productDTO.Name,
-                ProductDescription = productDTO.Description,
-                ProductPrice = productDTO.Price,
-                ProductImageUrl = imagesUrl
+                Name = productDTO.Name,
+                Description = productDTO.Description,
+                Price = productDTO.Price,
+                Category = productDTO.Category,
+                ImageUrl = imagesUrl
             };
 
             Product productFromDb =  await this.repository.CreateProductAsync(createdProduct);
@@ -34,9 +35,15 @@ namespace GoodMoodPerfumeBot.Services
             return productFromDb;
         }
 
-        public async Task<List<Product>> GetAllProductsAsync()
+        public async Task<List<Product>> GetByCategoryAsync(string category)
         {
-            return await repository.GetAllProductsAsync();
+            
+            return await repository.GetByCategoryAsync(category.ToLower());
+        }
+
+        public async Task<List<Product>> GetProductByNameAsync(string name)
+        {
+            return await this.repository.GetProductByNameAsync(name);
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
@@ -50,16 +57,16 @@ namespace GoodMoodPerfumeBot.Services
         public async Task RemoveProductAsync(int id)
         {
             Product deletedProduct = await this.repository.RemoveProductAsync(id);
-            this.imageService.DeleteImages(deletedProduct?.ProductImageUrl);
-            this.imageService.DeleteFolder(deletedProduct.ProductName);
+            this.imageService.DeleteImages(deletedProduct?.ImageUrl);
+            this.imageService.DeleteFolder(deletedProduct.Name);
         }
 
         public async Task<Product> UpdateProductAsync(UpdateProductDTO updatedProductDto)
         {
-            if(!string.IsNullOrEmpty(updatedProductDto.OldImagesUrl) && updatedProductDto.ProductImageFile != null)
+            if(!string.IsNullOrEmpty(updatedProductDto.ImageUrl) && updatedProductDto.Image != null)
             {
                 throw new Exception("Только одно изображение на один продукт");
-            } else if(string.IsNullOrEmpty(updatedProductDto.OldImagesUrl) && updatedProductDto.ProductImageFile == null)
+            } else if(string.IsNullOrEmpty(updatedProductDto.ImageUrl) && updatedProductDto.Image == null)
             {
                 throw new Exception("По крайней мере одно изображение должно быть загружено");
             }
@@ -70,23 +77,23 @@ namespace GoodMoodPerfumeBot.Services
                 throw new Exception("Product not found");          
 
             // если страрая картинка удалена, то удаляем файл картинки
-            if(string.IsNullOrEmpty(updatedProductDto.OldImagesUrl))
-                this.imageService.DeleteImages(productToUpdate.ProductImageUrl);
+            if(string.IsNullOrEmpty(updatedProductDto.ImageUrl))
+                this.imageService.DeleteImages(productToUpdate.ImageUrl);
 
 
-            if (!updatedProductDto.Name.Equals(productToUpdate.ProductName))
-                this.imageService.RenameProductImageFolder(productToUpdate.ProductName, updatedProductDto.Name);
+            if (!updatedProductDto.Name.Equals(productToUpdate.Name))
+                this.imageService.RenameProductImageFolder(productToUpdate.Name, updatedProductDto.Name);
 
             string image = string.Empty;
             //если передан файл для новой картинки, то загружаем его
-            if(updatedProductDto.ProductImageFile != null && updatedProductDto.ProductImageFile.Length > 0)
-               image = await this.imageService.UploadImageAsync(updatedProductDto.ProductImageFile, updatedProductDto.Name);
+            if(updatedProductDto.Image != null && updatedProductDto.Image.Length > 0)
+               image = await this.imageService.UploadImageAsync(updatedProductDto.Image, updatedProductDto.Name);
 
             
-            productToUpdate.ProductName = updatedProductDto.Name;
-            productToUpdate.ProductDescription = updatedProductDto.Description;
-            productToUpdate.ProductPrice = updatedProductDto.Price;
-            productToUpdate.ProductImageUrl = image;
+            productToUpdate.Name = updatedProductDto.Name;
+            productToUpdate.Description = updatedProductDto.Description;
+            productToUpdate.Price = updatedProductDto.Price;
+            productToUpdate.ImageUrl = image;
 
             var updatedProductFromDb =  await this.repository.UpdateProductAsync(productToUpdate);
             await this.repository.SaveAsync();

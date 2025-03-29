@@ -48,6 +48,8 @@ namespace GoodMoodPerfumeBot
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            app.UseCors();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -59,7 +61,6 @@ namespace GoodMoodPerfumeBot
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-            app.UseCors();
 
             app.MapControllers();
 

@@ -19,17 +19,19 @@ namespace GoodMoodPerfumeBot.Services
             if (!Directory.Exists(uploadPath))
                 Directory.CreateDirectory(uploadPath);
 
+            string fileNameWithoutSpaces = fileToUpload.FileName.Replace(" ", "_");
+
             string uploadedFiles;
-            var filePath = Path.Combine(uploadPath, fileToUpload.FileName);
+            var filePath = Path.Combine(uploadPath, fileNameWithoutSpaces);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await fileToUpload.CopyToAsync(stream);
             }
 
-            uploadedFiles = Path.Combine(images, productName, fileToUpload.FileName);
+            uploadedFiles = Path.Combine(images, productName, fileNameWithoutSpaces);
 
-            return uploadedFiles;
+            return "http://localhost:5070/" + uploadedFiles;
         }
 
         public void RenameProductImageFolder(string oldName, string newName)

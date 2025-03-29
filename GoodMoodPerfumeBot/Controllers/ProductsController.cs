@@ -20,15 +20,59 @@ namespace GoodMoodPerfumeBot.Controllers
         {
             this.productService = productService;
         }
-        [HttpGet("getAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("getByName")]
+        public async Task<IActionResult> GetByName(string name = "")
         {
             try
             {
+                if (name == null)
+                    return BadRequest(new Response()
+                    {
+                        Status = HttpStatusCode.BadRequest,
+                        IsSuccessful = false,
+                        Errors = new List<string>
+                        {
+                            "Условия поиска содержит null"
+                        }
+                    });
+
+                var result = await this.productService.GetProductByNameAsync(name);
                 return Ok(new Response()
                 {
                     Status = HttpStatusCode.OK,
-                    Result = await this.productService.GetAllProductsAsync()
+                    Result = result
+                });
+            } catch (Exception ex)
+            {
+                return BadRequest(new Response()
+                {
+                    Status = HttpStatusCode.BadRequest,
+                    IsSuccessful = false,
+                    Errors = new List<string>
+                    {
+                        ex.Message
+                    }
+                });
+            }
+        }
+        [HttpGet("getByCategory")]
+        public async Task<IActionResult> GetByCategory(string category)
+        {
+            try
+            {
+                if(string.IsNullOrEmpty(category))
+                    return BadRequest(new Response()
+                    {
+                        Status = HttpStatusCode.BadRequest,
+                        Errors = new List<string>()
+                    {
+                        "Не указана категория товара"
+                    }
+                    });
+                return Ok(new Response()
+                {
+                    Status = HttpStatusCode.OK,
+                    Result = await this.productService.GetByCategoryAsync(category)
                 });
             } 
             catch(Exception ex)
@@ -111,9 +155,8 @@ namespace GoodMoodPerfumeBot.Controllers
                     Result = createdProduct
                 };
 
-                foreach (var path in createdProduct.ProductImageUrl)
-                    Console.WriteLine(path);
-                return CreatedAtRoute(nameof(GetById), new { id = createdProduct.ProductId }, response);
+                Console.WriteLine(createdProduct.ImageUrl);
+                return CreatedAtRoute(nameof(GetById), new { id = createdProduct.Id }, response);
 
             }
             catch(Exception ex)

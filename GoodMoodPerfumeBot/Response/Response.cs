@@ -7,6 +7,6 @@ namespace GoodMoodPerfumeBot.ServerResponse
         public HttpStatusCode Status { get; set; }
         public bool IsSuccessful { get; set; } = true;
         public List<string> Errors { get; set; } = new List<string>();
-        public Object Result { get; set; } = new Object();
+        public Object Result { get; set; } = new object();
     }
 }

@@ -34,7 +34,7 @@ namespace GoodMoodPerfumeBot.Services
                 var productService = scope.ServiceProvider.GetService<IProductService>();
                 product = await productService.GetProductByIdAsync(1);
             }
-            msg = $"Вы запросили продукт\n{product.ProductId}\n{product.ProductName}\n{product.ProductPrice}\n{product.ProductImageUrl}";
+            msg = $"Вы запросили продукт\n{product.Id}\n{product.Name}\n{product.Price}\n{product.ImageUrl}";
             await botClient.SendMessage(chatId, msg);
         }
     }

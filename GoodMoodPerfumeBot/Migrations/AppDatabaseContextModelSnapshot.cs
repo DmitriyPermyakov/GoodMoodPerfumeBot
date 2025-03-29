@@ -108,110 +108,124 @@ namespace GoodMoodPerfumeBot.Migrations
 
             modelBuilder.Entity("GoodMoodPerfumeBot.Models.Product", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ProductDescription")
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ProductImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProductName")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("ProductPrice")
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Price")
                         .HasColumnType("double precision");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
-                            ProductId = 1,
-                            ProductDescription = "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Невероятный Деревянный Носки",
-                            ProductPrice = 6426.0100000000002
+                            Id = 1,
+                            Category = "мужские",
+                            Description = "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Свободный Гранитный Компьютер",
+                            Price = 9669.8500000000004
                         },
                         new
                         {
-                            ProductId = 2,
-                            ProductDescription = "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Маленький Гранитный Берет",
-                            ProductPrice = 8703.0300000000007
+                            Id = 2,
+                            Category = "женские",
+                            Description = "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Потрясающий Неодимовый Кошелек",
+                            Price = 3145.1500000000001
                         },
                         new
                         {
-                            ProductId = 3,
-                            ProductDescription = "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Невероятный Натуральный Плащ",
-                            ProductPrice = 4071.0799999999999
+                            Id = 3,
+                            Category = "женские",
+                            Description = "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Потрясающий Гранитный Ремень",
+                            Price = 7143.0699999999997
                         },
                         new
                         {
-                            ProductId = 4,
-                            ProductDescription = "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Большой Резиновый Кулон",
-                            ProductPrice = 3631.25
+                            Id = 4,
+                            Category = "женские",
+                            Description = "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Потрясающий Пластиковый Плащ",
+                            Price = 2173.4499999999998
                         },
                         new
                         {
-                            ProductId = 5,
-                            ProductDescription = "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Грубый Неодимовый Кошелек",
-                            ProductPrice = 8809.5
+                            Id = 5,
+                            Category = "мужские",
+                            Description = "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Грубый Стальной Куртка",
+                            Price = 6470.8500000000004
                         },
                         new
                         {
-                            ProductId = 6,
-                            ProductDescription = "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Грубый Бетонный Ножницы",
-                            ProductPrice = 3088.9699999999998
+                            Id = 6,
+                            Category = "женские",
+                            Description = "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Фантастический Деревянный Стол",
+                            Price = 4575.4799999999996
                         },
                         new
                         {
-                            ProductId = 7,
-                            ProductDescription = "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Грубый Хлопковый Сабо",
-                            ProductPrice = 6170.4700000000003
+                            Id = 7,
+                            Category = "женские",
+                            Description = "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Интеллектуальный Стальной Плащ",
+                            Price = 9661.8600000000006
                         },
                         new
                         {
-                            ProductId = 8,
-                            ProductDescription = "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Грубый Неодимовый Ремень",
-                            ProductPrice = 4214.9300000000003
+                            Id = 8,
+                            Category = "женские",
+                            Description = "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Великолепный Меховой Куртка",
+                            Price = 1746.9300000000001
                         },
                         new
                         {
-                            ProductId = 9,
-                            ProductDescription = "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Лоснящийся Натуральный Ножницы",
-                            ProductPrice = 1293.27
+                            Id = 9,
+                            Category = "женские",
+                            Description = "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Невероятный Неодимовый Плащ",
+                            Price = 8820.4699999999993
                         },
                         new
                         {
-                            ProductId = 10,
-                            ProductDescription = "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support",
-                            ProductImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
-                            ProductName = "Лоснящийся Хлопковый Берет",
-                            ProductPrice = 6218.4099999999999
+                            Id = 10,
+                            Category = "женские",
+                            Description = "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+                            ImageUrl = "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460",
+                            Name = "Эргономичный Бетонный Ремень",
+                            Price = 8611.7600000000002
                         });
                 });
 

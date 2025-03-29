@@ -72,16 +72,17 @@ namespace GoodMoodPerfumeBot.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProductName = table.Column<string>(type: "text", nullable: false),
-                    ProductDescription = table.Column<string>(type: "text", nullable: false),
-                    ProductImageUrl = table.Column<string>(type: "text", nullable: true),
-                    ProductPrice = table.Column<double>(type: "double precision", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Category = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    Price = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ProductId);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -238,25 +239,25 @@ namespace GoodMoodPerfumeBot.Migrations
                         name: "FK_OrderItems_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "ProductId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "ProductId", "ProductDescription", "ProductImageUrl", "ProductName", "ProductPrice" },
+                columns: new[] { "Id", "Category", "Description", "ImageUrl", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Невероятный Деревянный Носки", 6426.0100000000002 },
-                    { 2, "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Маленький Гранитный Берет", 8703.0300000000007 },
-                    { 3, "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Невероятный Натуральный Плащ", 4071.0799999999999 },
-                    { 4, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Большой Резиновый Кулон", 3631.25 },
-                    { 5, "The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Грубый Неодимовый Кошелек", 8809.5 },
-                    { 6, "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Грубый Бетонный Ножницы", 3088.9699999999998 },
-                    { 7, "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Грубый Хлопковый Сабо", 6170.4700000000003 },
-                    { 8, "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Грубый Неодимовый Ремень", 4214.9300000000003 },
-                    { 9, "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Лоснящийся Натуральный Ножницы", 1293.27 },
-                    { 10, "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Лоснящийся Хлопковый Берет", 6218.4099999999999 }
+                    { 1, "мужские", "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Свободный Гранитный Компьютер", 9669.8500000000004 },
+                    { 2, "женские", "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Потрясающий Неодимовый Кошелек", 3145.1500000000001 },
+                    { 3, "женские", "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Потрясающий Гранитный Ремень", 7143.0699999999997 },
+                    { 4, "женские", "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Потрясающий Пластиковый Плащ", 2173.4499999999998 },
+                    { 5, "мужские", "Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back for all-day comfort and support", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Грубый Стальной Куртка", 6470.8500000000004 },
+                    { 6, "женские", "The Apollotech B340 is an affordable wireless mouse with reliable connectivity, 12 months battery life and modern design", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Фантастический Деревянный Стол", 4575.4799999999996 },
+                    { 7, "женские", "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Интеллектуальный Стальной Плащ", 9661.8600000000006 },
+                    { 8, "женские", "Andy shoes are designed to keeping in mind durability as well as trends, the most stylish range of shoes & sandals", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Великолепный Меховой Куртка", 1746.9300000000001 },
+                    { 9, "женские", "Carbonite web goalkeeper gloves are ergonomically designed to give easy fit", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Невероятный Неодимовый Плащ", 8820.4699999999993 },
+                    { 10, "женские", "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive", "https://plumgoodness.com/cdn/shop/files/MKD_01.jpg?v=1728452056&width=460", "Эргономичный Бетонный Ремень", 8611.7600000000002 }
                 });
 
             migrationBuilder.CreateIndex(

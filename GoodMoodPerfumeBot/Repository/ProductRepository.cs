@@ -18,15 +18,21 @@ namespace GoodMoodPerfumeBot.Repository
             return await Task.FromResult(entity.Entity);
         }
 
-        public async Task<List<Product>> GetAllProductsAsync()
+        public async Task<List<Product>> GetProductByNameAsync(string name)
         {
-            return await this.context.Products.ToListAsync();
+           
+            return await this.context.Products.Where(p => p.Name.ToLower().Contains(name.ToLower())).ToListAsync();
+        }
+
+        public async Task<List<Product>> GetByCategoryAsync(string category)
+        {
+            return await this.context.Products.Where(p => p.Category.Equals(category)).ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
             return await this.context.Products                    
-                    .FirstOrDefaultAsync(p => p.ProductId == id);
+                    .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Product> RemoveProductAsync(int id)
