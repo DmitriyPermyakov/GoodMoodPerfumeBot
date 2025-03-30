@@ -113,7 +113,7 @@ namespace GoodMoodPerfumeBot.Controllers
                         Status = System.Net.HttpStatusCode.BadRequest,
                         IsSuccessful = false,
                         Errors = errors,
-                        Result = createOrderDTO ?? new Object()
+                        Result = createOrderDTO ?? new object()
                     });                    
                 }
 

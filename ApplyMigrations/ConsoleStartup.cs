@@ -26,7 +26,7 @@ namespace ApplyMigrations
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<AppDatabaseContext>(opts => opts.UseNpgsql(connectionString);
+            services.AddDbContext<AppDatabaseContext>(opts => opts.UseNpgsql(connectionString));
         }
     }
 }

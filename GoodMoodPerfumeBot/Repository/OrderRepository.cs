@@ -58,7 +58,7 @@ namespace GoodMoodPerfumeBot.Repository
         public async Task<Order> GetOrderByIdAsync(int id)
         {
             var order = await this.context.Orders
-                .Where(o => o.OrderId == id)
+                .Where(o => o.Id == id)
                 .Include(o => o.OrderItems)
                 .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync();
@@ -77,7 +77,7 @@ namespace GoodMoodPerfumeBot.Repository
 
         public async Task<int> RemoveOrderAsync(int id)
         {
-            int count = await this.context.Orders.Where(o => o.OrderId == id).ExecuteDeleteAsync();
+            int count = await this.context.Orders.Where(o => o.Id == id).ExecuteDeleteAsync();
             return count;
         }
 

@@ -67,7 +67,7 @@ namespace GoodMoodPerfumeBot.Services
 
             Order order = new Order()
             {
-                OrderId = 0,
+                Id = 0,
                 AppUser = user,                
                 OrderStatus = SharedData.OrderStatus.NotShipped,
                 PayStatus = SharedData.PayStatus.NotPayed,  
@@ -81,7 +81,7 @@ namespace GoodMoodPerfumeBot.Services
 
             await this.repository.SaveAsync();
 
-            var createdOrder = await this.repository.GetOrderByIdAsync(orderToCreate.OrderId);            
+            var createdOrder = await this.repository.GetOrderByIdAsync(orderToCreate.Id);            
 
             return createdOrder;
         }
