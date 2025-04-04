@@ -2,16 +2,21 @@
 using GoodMoodPerfumeBot.Models;
 using GoodMoodPerfumeBot.Repository;
 using GoodMoodPerfumeBot.UserRoles;
+using Telegram.Bot;
+using Telegram.Bot.Types.InlineQueryResults;
 
 namespace GoodMoodPerfumeBot.Services
 {
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository repository;
-        public OrderService(IOrderRepository orderRepository)
+        private readonly IUserService userService;
+        private readonly ITelegramBotClient botClient;
+        public OrderService(IOrderRepository orderRepository, IUserService userService, ITelegramBotClient botClient)
         {
             this.repository = orderRepository;
-
+            this.userService = userService;
+            this.botClient = botClient;
         }
 
         public async Task<Order> GetOrderByIdAsync(int id)
@@ -22,8 +27,14 @@ namespace GoodMoodPerfumeBot.Services
 
         public async Task<List<Order>> GetAllUserOrdersAsync(long telegramUserId)
         {
-            List<Order> userOrders = await this.repository.GetAllUserOrders(telegramUserId);
+            List<Order> userOrders = await this.repository.GetAllUserOrdersAsync(telegramUserId);
             return userOrders;
+        }
+
+        public async Task<Order> GetOrderByUserIdAsync(long userId)
+        {
+            var order = await this.repository.GetOrderByUserIdAsync(userId);
+            return order;
         }
         public async Task<List<Order>> GetNotPayedOrdersAsync()
         {
@@ -48,12 +59,16 @@ namespace GoodMoodPerfumeBot.Services
         }
         public async Task<Order> CreateOrderAsync(CreateOrderDTO createOrderDTO)
         {
-            AppUser user = new AppUser()
-            {
-                TelegramUserId = createOrderDTO.TelegramUserId,
-                ChatId = null,
-                UserRole = SharedData.UserRoles.Member
-            };
+            AppUser user;
+            
+            user = await this.userService.GetUserByTelegramIdAsync(createOrderDTO.TelegramUserId);
+            if(user == null)
+                user = new AppUser()
+                {
+                    TelegramUserId = createOrderDTO.TelegramUserId,
+                    ChatId = null,
+                    UserRole = SharedData.UserRoles.Member
+                };
 
             List<OrderItem> orderItems = new List<OrderItem>();
             foreach(var item in createOrderDTO.OrderItems)
@@ -81,7 +96,10 @@ namespace GoodMoodPerfumeBot.Services
 
             await this.repository.SaveAsync();
 
-            var createdOrder = await this.repository.GetOrderByIdAsync(orderToCreate.Id);            
+            var createdOrder = await this.repository.GetOrderByIdAsync(orderToCreate.Id);
+            //InlineQueryResult result = new InlineQueryResultArticle("inlineResultId", "inlineResult title",
+            //    new InputTextMessageContent("Платежные данные ниже: "));
+            //await this.botClient.AnswerWebAppQuery(createOrderDTO.QueryId, result);
 
             return createdOrder;
         }
@@ -149,6 +167,12 @@ namespace GoodMoodPerfumeBot.Services
 
             orderToUpdate.PayStatus = SharedData.PayStatus.Payed;
             await this.repository.UpdateOrderAsync(orderToUpdate);
+            await this.repository.SaveAsync();
+        }
+
+        public async Task SetOrderPayPhoto(Order order)
+        {
+            await this.repository.UpdateOrderAsync(order);
             await this.repository.SaveAsync();
         }
     }

@@ -19,7 +19,7 @@ namespace GoodMoodPerfumeBot.Repository
             return orderEntity.Entity;
         }
 
-        public async Task<List<Order>> GetAllUserOrders(long telegramUserId)
+        public async Task<List<Order>> GetAllUserOrdersAsync(long telegramUserId)
         {
             var userOrders = await this.context.Orders
                 .Where(o => o.AppUser.TelegramUserId == telegramUserId)
@@ -30,6 +30,19 @@ namespace GoodMoodPerfumeBot.Repository
 
             return userOrders;
         }
+
+        public async Task<Order> GetOrderByUserIdAsync(long telegramUserId)
+        {
+            var order = await this.context.Orders
+                .Where(o => o.AppUser.TelegramUserId == telegramUserId)
+                .Include(o => o.AppUser)
+                .Include(o => o.OrderItems)
+                .ThenInclude(i => i.Product)
+                .OrderBy(o => o.Id)
+                .ToListAsync();
+            return order.Last();
+        }
+
 
         public async Task<List<Order>> GetNotPayedOrdersAsync()
         {
@@ -59,6 +72,7 @@ namespace GoodMoodPerfumeBot.Repository
         {
             var order = await this.context.Orders
                 .Where(o => o.Id == id)
+                .Include(o => o.AppUser)
                 .Include(o => o.OrderItems)
                 .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync();
@@ -86,6 +100,8 @@ namespace GoodMoodPerfumeBot.Repository
             this.context.Orders.Update(updatedOrder);
             await Task.CompletedTask;
         }
+
+
 
         public async Task SaveAsync()
         {

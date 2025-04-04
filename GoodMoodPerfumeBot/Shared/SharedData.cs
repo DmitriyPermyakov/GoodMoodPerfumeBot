@@ -1,4 +1,6 @@
-﻿namespace GoodMoodPerfumeBot.UserRoles
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace GoodMoodPerfumeBot.UserRoles
 {
     public static class SharedData
     {
@@ -31,6 +33,12 @@
                     Payed, NotPayed
                 };
             }
+
+            public static IReadOnlyDictionary<string, string> PayMessage = new Dictionary<string, string>()
+            {
+                { Payed, "✅ Оплачен" },
+                { NotPayed, "🚫 Не оплачен" }
+            };
         }
 
         public static class OrderStatus
@@ -45,6 +53,12 @@
                     Shipped, NotShipped
                 };
             }
+
+            public static IReadOnlyDictionary<string, string> ShipMessage = new Dictionary<string, string>()
+            {
+                { Shipped, "✅ Отправлен" },
+                { NotShipped, "🚫 Не отправлен" }
+            };
 
         }
 

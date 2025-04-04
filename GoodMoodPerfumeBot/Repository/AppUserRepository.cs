@@ -1,5 +1,6 @@
 ﻿using GoodMoodPerfumeBot.Models;
 using GoodMoodPerfumeBot.Repositiory;
+using GoodMoodPerfumeBot.UserRoles;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoodMoodPerfumeBot.Repository
@@ -16,6 +17,25 @@ namespace GoodMoodPerfumeBot.Repository
             var userEntity = await this.context.AppUsers.AddAsync(appUser);
             return userEntity.Entity;
         }
+
+        public AppUser GetAdmin()
+        {
+            var admin = this.context.AppUsers
+                .Where(u => u.UserRole.Equals(SharedData.UserRoles.Administrator))
+                .FirstOrDefault();
+
+            return admin;
+        }
+
+        public AppUser GetOwner()
+        {
+            var owner = this.context.AppUsers
+                .Where(u => u.UserRole.Equals(SharedData.UserRoles.Owner))
+                .FirstOrDefault();
+
+            return owner;
+        }
+
 
         public async Task Delete(AppUser appUser)
         {

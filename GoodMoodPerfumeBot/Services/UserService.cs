@@ -30,6 +30,7 @@ namespace GoodMoodPerfumeBot.Services
                 };
 
                 var createdUser = await this.repository.CreateAsync(appUser);
+                await this.repository.SaveAsync();
                 return createdUser;
             }
         }
@@ -39,6 +40,16 @@ namespace GoodMoodPerfumeBot.Services
             AppUser appUser = await this.repository.GetUserByTelegramIdAsync(telegramUserId);
             
             return appUser;
+        }
+        public AppUser GetOwner()
+        {
+            return this.repository.GetOwner();
+        }
+
+
+        public AppUser GetAdmin()
+        {
+            return this.repository.GetAdmin();
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
@@ -53,20 +64,28 @@ namespace GoodMoodPerfumeBot.Services
             return user;
         }
 
-        public async Task<AppUser> UpdateUserAsync(int userId, long? chatId = null, string userRole = SharedData.UserRoles.Member)
+        public async Task<AppUser> UpdateUserAsync(long userId, long? chatId = null, string userRole = SharedData.UserRoles.Member)
         {
-            AppUser userToUpdate = await this.GetUserByIdAsync(userId);
+            AppUser user = await this.GetUserByTelegramIdAsync(userId);
 
-            if (!string.IsNullOrEmpty(userRole))
-                userToUpdate.UserRole = userRole;
+            if(user == null)
+            {
+                user = await this.CreateAsync(userId, chatId, SharedData.UserRoles.Administrator);
+            } else
+            {
+                if (!string.IsNullOrEmpty(userRole))
+                    user.UserRole = userRole;
 
-            if (chatId != null && chatId > 0)
-                userToUpdate.ChatId = chatId;
+                if (chatId != null && chatId > 0)
+                    user.ChatId = chatId;
 
-            var updatedUser = await this.repository.UpdateAsync(userToUpdate);
+                user = await this.repository.UpdateAsync(user);
+            }
+
+            
             await this.repository.SaveAsync();
 
-            return updatedUser;
+            return user;
         }
     }
 }

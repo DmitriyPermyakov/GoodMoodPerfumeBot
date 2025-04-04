@@ -10,6 +10,7 @@ namespace GoodMoodPerfumeBot.Models
         [ForeignKey(nameof(AppUser))]
         public int UserId { get; set; }
         public AppUser? AppUser { get; set; }
+        public string? PayPhotoId { get; set; } = null;
         public List<OrderItem> OrderItems { get; set; }
         public string? Address { get; set; }
         public string? Name { get; set; }

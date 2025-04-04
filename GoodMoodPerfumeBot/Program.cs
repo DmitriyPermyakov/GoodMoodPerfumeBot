@@ -9,7 +9,7 @@ namespace GoodMoodPerfumeBot
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +29,9 @@ namespace GoodMoodPerfumeBot
             builder.Services.AddTransient<IOrderService, OrderService>();
             builder.Services.AddTransient<IOrderItemService, OrderItemService>();
             builder.Services.AddTransient<IOrderItemRepository, OrderItemRepository>();
+            builder.Services.AddScoped<AuthService>();
+            builder.Services.AddSingleton<CommandService>();
+            builder.Services.AddAuthConfig(builder.Configuration);
             builder.Services.AddSingleton<UpdateHandler>();
             builder.Services.ConfigureTelegramBotMvc();
             builder.Services.AddControllers();
@@ -48,6 +51,13 @@ namespace GoodMoodPerfumeBot
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var commandService = scope.ServiceProvider.GetRequiredService<CommandService>();
+                await commandService.SetFirstCommandAsync();
+            }
+
             app.UseCors();
 
 
@@ -60,6 +70,7 @@ namespace GoodMoodPerfumeBot
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
