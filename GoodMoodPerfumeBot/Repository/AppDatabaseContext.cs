@@ -12,6 +12,7 @@ namespace GoodMoodPerfumeBot.Repositiory
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<PaymentDetails> PaymentDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {            

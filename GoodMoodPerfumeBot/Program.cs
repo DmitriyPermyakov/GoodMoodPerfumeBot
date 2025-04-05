@@ -29,7 +29,10 @@ namespace GoodMoodPerfumeBot
             builder.Services.AddTransient<IOrderService, OrderService>();
             builder.Services.AddTransient<IOrderItemService, OrderItemService>();
             builder.Services.AddTransient<IOrderItemRepository, OrderItemRepository>();
+            builder.Services.AddMemoryCache();
             builder.Services.AddScoped<AuthService>();
+            builder.Services.AddScoped<PaymentDetailsService>();
+            builder.Services.AddScoped<PaymentDetailsRepository>();
             builder.Services.AddSingleton<CommandService>();
             builder.Services.AddAuthConfig(builder.Configuration);
             builder.Services.AddSingleton<UpdateHandler>();

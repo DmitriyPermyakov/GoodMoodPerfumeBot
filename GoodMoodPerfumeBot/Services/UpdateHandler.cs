@@ -1,21 +1,24 @@
 ﻿using GoodMoodPerfumeBot.Models;
+using GoodMoodPerfumeBot.Shared;
 using GoodMoodPerfumeBot.UserRoles;
-using System.Text.Json;
+using Microsoft.Extensions.Caching.Memory;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace GoodMoodPerfumeBot.Services
 {
     public class UpdateHandler
     {
-        private readonly IServiceScopeFactory scopeFactory;      
-
-        public UpdateHandler(IServiceScopeFactory scopeFactory)
+        private readonly IServiceScopeFactory scopeFactory;
+        private IMemoryCache cache;
+        private bool IsEnteringPaymentDetails = false;
+        private AppUser owner = null;
+        public UpdateHandler(IServiceScopeFactory scopeFactory, IMemoryCache cache)
         {
-            this.scopeFactory = scopeFactory;           
+            this.scopeFactory = scopeFactory;
+            this.cache = cache;
         }
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken ct)
         {
@@ -37,9 +40,7 @@ namespace GoodMoodPerfumeBot.Services
         {
             Console.WriteLine("default handler");
             return Task.CompletedTask;
-        }
-
-       
+        }       
 
         private async Task OnForwardedMessage(ITelegramBotClient botClient, Message message)
         {
@@ -135,15 +136,23 @@ namespace GoodMoodPerfumeBot.Services
 
             if (!string.IsNullOrEmpty(messageText))
             {
+
                 if(messageText.StartsWith("/start"))
                 {
-                    var payload = messageText.Split(" ")[1];
-                    if (payload.Equals("set_administrator"))
-                        await SetAdminAsync(chatId, userId);
+                    var startString = messageText.Split(" ");
+                    if(startString.Length > 1)
+                    {
+                        var payload = startString[1];
+                        if (payload.Equals("set_administrator"))
+                            await SetAdminAsync(chatId, userId);
+                    }
                 }
 
                 switch (messageText)
                 {
+                    case "/get_payment_details":
+                        await GetPaymentDetails(botClient, chatId);
+                        break;
                     case "/get_not_shipped":
                         await GetNotShippedOrdersAsync(botClient, message);
                         break;
@@ -156,19 +165,87 @@ namespace GoodMoodPerfumeBot.Services
                     case "/delete_admin":
                         await CreateRemoveAdminButtons(botClient, chatId, userId);
                         break;
+                    case "/set_payment_details":
+                        this.IsEnteringPaymentDetails = true;
+                        break;
                     case "/set_owner":
                         await SetOwnerAsync(chatId, userId);
                         break;
 
                 }
+                
             }
 
-
-            //владелец запускает бота, там будет команда /set_owner. Бот создает нового пользователа в базе данных и устанавливает соответствующие поля
-            // после этого владельцу устанавливаются команды для удаления админа, а также установки платежных реквизитов и их удаления
+            if (this.IsEnteringPaymentDetails == true)
+                await this.SetPaymentDetails(botClient, message);
 
         }
 
+        private async Task GetPaymentDetails(ITelegramBotClient botClient, long chatId)
+        {
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var payment = scope.ServiceProvider.GetRequiredService<PaymentDetailsService>();
+                var paymentDetails = await payment.GetDetailsAsync();
+                if (paymentDetails == null)
+                    await botClient.SendMessage(chatId, "Не удалось получить платежные данные");
+                else
+                    await botClient.SendMessage(chatId, $"Телефон для перевода:\n<pre>{paymentDetails.Phone}</pre>\n Номер карты:\n<pre>{paymentDetails?.CardNumber}</pre>", ParseMode.Html);
+                
+            }
+        }
+
+        private async Task SetPaymentDetails(ITelegramBotClient botClient, Message message)
+        {
+            var chatId = message.Chat.Id;
+            if(this.owner == null)
+            {
+                using (var scope = scopeFactory.CreateScope())
+                {
+                    var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+                    this.owner = userService.GetOwner();
+                    if (this.owner == null)
+                    {
+                        this.IsEnteringPaymentDetails = false;
+                        await botClient.SendMessage(chatId, "Не удалось получить профиль владельца");
+                        return;
+                    }
+                }
+            }
+
+            if(this.owner.TelegramUserId != message.From.Id)
+            {
+                this.IsEnteringPaymentDetails = false;
+                await botClient.SendMessage(chatId, "Вы не можете изменять платежные данные");
+                return;
+            }
+                
+            var userState = this.cache.Get<UserState>(this.owner.TelegramUserId) ?? new UserState();
+
+            switch(userState.Step)
+            {
+                case Step.None:
+                    userState.Step = Step.WaitingForPhone;
+                    this.cache.Set(this.owner.TelegramUserId, userState, TimeSpan.FromMinutes(10));
+                    await botClient.SendMessage(chatId, "Введите номер телефона");
+                    break;
+                case Step.WaitingForPhone:
+                    userState.PaymentDetails.Phone = message.Text.Trim();
+                    userState.Step = Step.WaitingForCardNumber;
+                    this.cache.Set(this.owner.TelegramUserId, userState);
+                    await botClient.SendMessage(chatId, "Введите номер счета");
+                    break;
+                case Step.WaitingForCardNumber:
+                    userState.PaymentDetails.CardNumber = message.Text.Trim();
+                    userState.Step = Step.Completed;
+                    this.IsEnteringPaymentDetails = false;
+                    await this.CreateOrUpdatePaymentDetails(userState.PaymentDetails);
+                    this.cache.Remove(this.owner.TelegramUserId);
+                    await botClient.SendMessage(chatId, "Платежные данные сохранены");
+                    break;
+
+            }
+        }
 
         private async Task ProcessOrderMessage(ITelegramBotClient botClient, CallbackQuery query)
         {
@@ -432,6 +509,14 @@ namespace GoodMoodPerfumeBot.Services
                 return false;
 
             return true;
+        }
+        private async Task CreateOrUpdatePaymentDetails(PaymentDetails details)
+        {
+            using (var scope = this.scopeFactory.CreateScope())
+            {
+                var payments = scope.ServiceProvider.GetRequiredService<PaymentDetailsService>();
+                await payments.CreateOrUpdateAsync(details);
+            }
         }
     }
 }
